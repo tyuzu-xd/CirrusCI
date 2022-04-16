@@ -1,5 +1,5 @@
 env:
-    DEVICE_CODENAME: Ginkgo
+    DEVICE_CODENAME: ginkgo
     BUILD_USER: tyuzu-xd
     BUILD_HOST: Ubuntu
     CIRRUS_CLONE_DEPTH: 1
