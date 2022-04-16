@@ -1,7 +1,7 @@
 env:
     DEVICE_CODENAME: ginkgo
-    BUILD_USER: tyuzu-xd
-    BUILD_HOST: Ubuntu
+    BUILD_USER: TyuzuXD
+    BUILD_HOST: Ubuntu-LTS
     CIRRUS_CLONE_DEPTH: 1
     CIRRUS_WORKING_DIR: /tmp/cirrus-ci-build
     TG_TOKEN: "ENCRYPTED[cf805075136affcdcce591083f5514f42f11d741c0d2f63aea322bafe9028b5931311bf30a0808e36806141c3327a244]"
