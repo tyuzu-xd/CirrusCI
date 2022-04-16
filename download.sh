@@ -2,7 +2,7 @@
 
 echo "Downloading few Dependecies . . ."
 # Kernel Sources
-git clone --depth 1 https://github.com/trinket-devs/kernel_xiaomi_ginkgo.git -b 11.0 $CIRRUS_WORKING_DIR/$DEVICE_CODENAME
+git clone --depth 1 https://github.com/Kyvangka1610/android_kernel_xiaomi_ginkgo -b LA.UM.9.1.r1-08100-SMxxx0.0 $CIRRUS_WORKING_DIR/$DEVICE_CODENAME
 # Toolchain
 # git clone --depth 1 https://github.com/mvaisakh/gcc-arm.git -b gcc-master $CIRRUS_WORKING_DIR/GCC-11-32
 # git clone --depth 1 https://github.com/mvaisakh/gcc-arm64.git -b gcc-master $CIRRUS_WORKING_DIR/GCC-11-64
