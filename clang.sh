@@ -41,15 +41,9 @@ cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
     make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
     make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
-	CC=${CLANG_ROOTDIR}/bin/clang \
-    NM=${CLANG_ROOTDIR}/bin/llvm-nm \
-    AR=${CLANG_ROOTDIR}/bin/llvm-ar \
-    AS=${CLANG_ROOTDIR}/bin/llvm-as \
-    OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
-    OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
-    STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
-    CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
-    CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi-
+    CC=${CLANG_ROOTDIR}/bin/clang \
+	CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
+	CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi-
    if ! [ -a "$IMAGE" ]; then
 	finerr
    fi
