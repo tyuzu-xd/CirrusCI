@@ -20,7 +20,7 @@ task:
 
   Build_kernel_Clang_script:
       - ./clang.sh
-#      - ./rm.sh
+      - ./rm.sh
 
   Build_kernel_GCC_11_script:
 #      - ./gcc.sh
