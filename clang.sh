@@ -56,7 +56,8 @@ make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
 	finerr
    fi
 	git clone --depth=1 $ANYKERNEL $CIRRUS_WORKING_DIR/AnyKernel
-	cp $IMAGE $DTBO $CIRRUS_WORKING_DIR/AnyKernel
+	cp $IMAGE $CIRRUS_WORKING_DIR/AnyKernel
+    cp $DTBO $CIRRUS_WORKING_DIR/AnyKernel
 }
 # Push kernel to channel
 function push() {
