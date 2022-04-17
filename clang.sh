@@ -41,7 +41,6 @@ cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
 make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
 make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
-           LD_LIBRARY_PATH="$CLANG_ROOTDIR/lib:${LD_LIBRARY_PATH}"
 	       CC=${CLANG_ROOTDIR}/bin/clang \
 	       AR=${CLANG_ROOTDIR}/bin/llvm-ar \
 	       AS=${CLANG_ROOTDIR}/bin/llvm-as \
@@ -49,7 +48,7 @@ make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
 	       OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
 	       OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
 	       STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
-	       CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-android- \
+	       CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-android-ld- \
 	       CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-androideabi- \
 	       CLANG_TRIPLE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu-
    if ! [ -a "$IMAGE" ]; then
