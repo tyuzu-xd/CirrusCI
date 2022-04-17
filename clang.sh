@@ -12,9 +12,8 @@ if [ ! -d "$CIRRUS_WORKING_DIR/kernel_ccache" ];
     
 # Main Declaration
 function env() {
-export KERNEL_NAME=FanEdition-Kernel-CLANG
+DEFCONFIG=vendor/ginkgo-perf_defconfig
 KERNEL_ROOTDIR=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME
-DEVICE_DEFCONFIG=vendor/ginkgo-perf_defconfig
 CLANG_ROOTDIR=$CIRRUS_WORKING_DIR/CLANG
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
@@ -22,6 +21,7 @@ IMAGE=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 DTBO=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/dtbo.img
 DATE=$(date +"%F-%S")
 START=$(date +"%s")
+export KERNEL_NAME=FanEdition-Kernel-CLANG
 export KBUILD_BUILD_USER=$BUILD_USER
 export KBUILD_BUILD_HOST=$BUILD_HOST
 export KBUILD_COMPILER_STRING="$CLANG_VER"
@@ -33,7 +33,7 @@ export BOT_MSG_URL2="https://api.telegram.org/bot$TG_TOKEN"
 function check() {
 echo BUILDER NAME = ${KBUILD_BUILD_USER}
 echo BUILDER HOSTNAME = ${KBUILD_BUILD_HOST}
-echo DEVICE_DEFCONFIG = ${DEVICE_DEFCONFIG}
+echo DEFCONFIG = ${DEFCONFIG}
 echo TOOLCHAIN_VERSION = ${KBUILD_COMPILER_STRING}
 echo CLANG_ROOTDIR = ${CLANG_ROOTDIR}
 echo KERNEL_ROOTDIR = ${KERNEL_ROOTDIR}
@@ -49,10 +49,9 @@ tg_post_msg() {
 compile(){
 cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
-make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEVICE_DEFCONFIG}
-make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
+make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
+make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out LD_LIBRARY_PATH="${DEFCONFIG}/lib:${LD_LIBRARY_PATH} \
 	       ARCH=${CLANG_ROOTDIR}/bin/arm64 \
-	       LD_LIBRARY_PATH="${CLANG_ROOTDIR}/lib:${LD_LIBRARY_PATH}" \
 	       CC=${CLANG_ROOTDIR}/bin/clang \
 	       AR=${CLANG_ROOTDIR}/bin/llvm-ar \
 	       AS=${CLANG_ROOTDIR}/bin/llvm-as \
