@@ -1,8 +1,18 @@
 #!/usr/bin/env bash
 
+if [ ! -d "$CIRRUS_WORKING_DIR/kernel_ccache" ]; 
+    then
+    mkdir -p "$CIRRUS_WORKING_DIR/kernel_ccache"
+    fi
+    export CCACHE_DIR="$CIRRUS_WORKING_DIR/kernel_ccache"
+    export CCACHE_EXEC=$(which ccache)
+    export USE_CCACHE=1
+    ccache -M 2G
+    ccache -z
+    
 # Main Declaration
 function env() {
-export KERNEL_NAME=Ginkgo-CLANG
+export KERNEL_NAME=FanEdition-Kernel-CLANG
 KERNEL_ROOTDIR=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME
 DEVICE_DEFCONFIG=vendor/ginkgo-perf_defconfig
 CLANG_ROOTDIR=$CIRRUS_WORKING_DIR/CLANG
@@ -14,7 +24,7 @@ DATE=$(date +"%F-%S")
 START=$(date +"%s")
 export KBUILD_BUILD_USER=$BUILD_USER
 export KBUILD_BUILD_HOST=$BUILD_HOST
-export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER"
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
 export BOT_MSG_URL2="https://api.telegram.org/bot$TG_TOKEN"
 }
@@ -44,7 +54,6 @@ make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
 	       ARCH=${CLANG_ROOTDIR}/bin/arm64 \
 	       LD_LIBRARY_PATH="${CLANG_ROOTDIR}/lib:${LD_LIBRARY_PATH}" \
 	       CC=${CLANG_ROOTDIR}/bin/clang \
-	       LD=${CLANG_ROOTDIR}/bin/ld.lld \
 	       AR=${CLANG_ROOTDIR}/bin/llvm-ar \
 	       AS=${CLANG_ROOTDIR}/bin/llvm-as \
 	       NM=${CLANG_ROOTDIR}/bin/llvm-nm \
