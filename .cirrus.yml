@@ -11,7 +11,7 @@ task:
   name: "Kernel deploy.."
   timeout_in: 2h
   container:
-      image: zenitsuxd/kernel:latest
+      image: tyuzu/kernel:build
       cpu: 8
       memory: 32G
 

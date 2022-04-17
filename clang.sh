@@ -9,6 +9,7 @@ CLANG_ROOTDIR=$CIRRUS_WORKING_DIR/CLANG
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
 IMAGE=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
+DTBO=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/dtbo.img
 DATE=$(date +"%F-%S")
 START=$(date +"%s")
 export KBUILD_BUILD_USER=$BUILD_USER
@@ -40,18 +41,19 @@ cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
 make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEVICE_DEFCONFIG}
 make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
-    HOSTCC=${CLANG_ROOTDIR}/bin/clang \
-    HOSTCXX=${CLANG_ROOTDIR}/bin/clang++ \
-    CFLAGS_MODULE="-fno-pic" \
-    CC=${CLANG_ROOTDIR}/bin/clang \
-    NM=${CLANG_ROOTDIR}/bin/llvm-nm \
-    AR=${CLANG_ROOTDIR}/bin/llvm-ar \
-    AS=${CLANG_ROOTDIR}/bin/llvm-as \
-    OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
-    OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
-    STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
-    CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
-    CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi-
+	       ARCH=${CLANG_ROOTDIR}/bin/arm64 \
+	       LD_LIBRARY_PATH="${CLANG_ROOTDIR}/lib:${LD_LIBRARY_PATH}" \
+	       CC=${CLANG_ROOTDIR}/bin/clang \
+	       LD=${CLANG_ROOTDIR}/bin/ld.lld \
+	       AR=${CLANG_ROOTDIR}/bin/llvm-ar \
+	       AS=${CLANG_ROOTDIR}/bin/llvm-as \
+	       NM=${CLANG_ROOTDIR}/bin/llvm-nm \
+	       OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
+	       OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
+	       STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
+	       CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-android- \
+	       CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-androideabi- \
+	       CLANG_TRIPLE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu-
    if ! [ -a "$IMAGE" ]; then
 	finerr
    fi
