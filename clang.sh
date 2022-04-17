@@ -1,14 +1,4 @@
 #!/usr/bin/env bash
-
-if [ ! -d "$CIRRUS_WORKING_DIR/kernel_ccache" ]; 
-    then
-    mkdir -p "$CIRRUS_WORKING_DIR/kernel_ccache"
-    fi
-    export CCACHE_DIR="$CIRRUS_WORKING_DIR/kernel_ccache"
-    export CCACHE_EXEC=$(which ccache)
-    export USE_CCACHE=1
-    ccache -M 2G
-    ccache -z
     
 # Main Declaration
 function env() {
@@ -50,7 +40,7 @@ compile(){
 cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
 make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
-make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out LD_LIBRARY_PATH="${DEFCONFIG}/lib:${LD_LIBRARY_PATH} \
+make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out LD_LIBRARY_PATH="${LLD_VER}/lib:${LD_LIBRARY_PATH} \
 	       ARCH=${CLANG_ROOTDIR}/bin/arm64 \
 	       CC=${CLANG_ROOTDIR}/bin/clang \
 	       AR=${CLANG_ROOTDIR}/bin/llvm-ar \
