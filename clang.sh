@@ -39,17 +39,17 @@ tg_post_msg() {
 compile(){
 cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
-make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
-make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
-	       CC=${CLANG_ROOTDIR}/bin/clang \
-	       AR=${CLANG_ROOTDIR}/bin/llvm-ar \
-	       AS=${CLANG_ROOTDIR}/bin/llvm-as \
-	       NM=${CLANG_ROOTDIR}/bin/llvm-nm \
-	       OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
-	       OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
-	       STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
-	       CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-android- \
-	       CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-androideabi- \
+    make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
+    make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
+	CC=${CLANG_ROOTDIR}/bin/clang \
+    NM=${CLANG_ROOTDIR}/bin/llvm-nm \
+    AR=${CLANG_ROOTDIR}/bin/llvm-ar \
+    AS=${CLANG_ROOTDIR}/bin/llvm-as \
+    OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
+    OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
+    STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
+    CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
+    CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi-
    if ! [ -a "$IMAGE" ]; then
 	finerr
    fi
@@ -84,9 +84,6 @@ function finerr() {
 	    -d "disable_web_page_preview=true" \
 	    -d "parse_mode=html" \
         -d text="==============================%0A<b>    Building Kernel CLANG Failed [❌]</b>%0A==============================" \
-    curl -s -X POST "$BOT_MSG_URL2/sendSticker" \
-        -d sticker="CAACAgIAAx0CXjGT1gACDRRhYsUKSwZJQFzmR6eKz2aP30iKqQACPgADr8ZRGiaKo_SrpcJQIQQ" \
-        -d chat_id="$TG_CHAT_ID"
     exit 1
 }
 
