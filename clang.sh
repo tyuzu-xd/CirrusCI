@@ -41,6 +41,7 @@ cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
 make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
 make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
+           LD_LIBRARY_PATH="$CLANG_ROOTDIR/lib:${LD_LIBRARY_PATH}"
 	       CC=${CLANG_ROOTDIR}/bin/clang \
 	       AR=${CLANG_ROOTDIR}/bin/llvm-ar \
 	       AS=${CLANG_ROOTDIR}/bin/llvm-as \
