@@ -7,6 +7,7 @@ KERNEL_ROOTDIR=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME
 CLANG_ROOTDIR=$CIRRUS_WORKING_DIR/CLANG
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
+LD_LIBRARY_PATH="$("$CLANG_ROOTDIR"/bin/clang/lib:$LD_LIBRARY_PATH"
 IMAGE=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 DTBO=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/dtbo.img
 DATE=$(date +"%F-%S")
@@ -14,7 +15,7 @@ START=$(date +"%s")
 export KERNEL_NAME=FanEdition-Kernel-CLANG
 export KBUILD_BUILD_USER=$BUILD_USER
 export KBUILD_BUILD_HOST=$BUILD_HOST
-export KBUILD_COMPILER_STRING="$CLANG_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER with $LD_LIBRARY_PATH"
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
 export BOT_MSG_URL2="https://api.telegram.org/bot$TG_TOKEN"
 }
