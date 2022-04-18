@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
     
-# Main Declaration
-function env() {
+# Main
 DEFCONFIG=vendor/ginkgo-perf_defconfig
-KERNEL_ROOTDIR=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME
+KERNEL_ROOTDIR=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 CLANG_ROOTDIR=$CIRRUS_WORKING_DIR/CLANG
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
@@ -11,16 +10,20 @@ IMAGE=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 DTBO=$CIRRUS_WORKING_DIR/$DEVICE_CODENAME/out/arch/arm64/boot/dtbo.img
 DATE=$(date +"%F-%S")
 START=$(date +"%s")
-export KERNEL_NAME=FanEdition-Kernel-CLANG
+export KERNEL_NAME=FanEdition-Kernel-CLANG # IMPORTANT ! Declare your kernel name
 export KBUILD_BUILD_USER=$BUILD_USER
 export KBUILD_BUILD_HOST=$BUILD_HOST
 export KBUILD_COMPILER_STRING="$CLANG_VER"
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
 export BOT_MSG_URL2="https://api.telegram.org/bot$TG_TOKEN"
-}
+
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
 function check() {
+echo ================================================
+echo xKernelCompiler CirrurCI Edition
+echo version : rev1.5 - Started
+echo ================================================
 echo BUILDER NAME = ${KBUILD_BUILD_USER}
 echo BUILDER HOSTNAME = ${KBUILD_BUILD_HOST}
 echo DEFCONFIG = ${DEFCONFIG}
@@ -41,9 +44,15 @@ cd ${KERNEL_ROOTDIR}
 tg_post_msg "<b>Buiild Kernel Clang started..</b>"
     make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
     make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
-    CC=${CLANG_ROOTDIR}/bin/clang \
-	CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
-	CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi-
+	CC=${CLANG_ROOTDIR}/bin/clang \
+    NM=${CLANG_ROOTDIR}/bin/llvm-nm \
+    AR=${CLANG_ROOTDIR}/bin/llvm-ar \
+    AS=${CLANG_ROOTDIR}/bin/llvm-as \
+    OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
+    OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
+    STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
+    CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
+    CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi-
    if ! [ -a "$IMAGE" ]; then
 	finerr
    fi
