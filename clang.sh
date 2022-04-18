@@ -48,6 +48,7 @@ tg_post_msg "<b>Buiild Kernel Clang started..</b>"
     NM=${CLANG_ROOTDIR}/bin/llvm-nm \
     AR=${CLANG_ROOTDIR}/bin/llvm-ar \
     AS=${CLANG_ROOTDIR}/bin/llvm-as \
+    LD=${CLANG_ROOTDIR}/bin/ld.lld \
     OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
     OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
     STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
