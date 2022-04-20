@@ -13,7 +13,7 @@ START=$(date +"%s")
 export KERNEL_NAME=FanEdition-Kernel-CLANG # IMPORTANT ! Declare your kernel name
 export KBUILD_BUILD_USER=$BUILD_USER
 export KBUILD_BUILD_HOST=$BUILD_HOST
-export KBUILD_COMPILER_STRING="$CLANG_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
 export BOT_MSG_URL2="https://api.telegram.org/bot$TG_TOKEN"
 
