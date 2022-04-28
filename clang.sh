@@ -45,7 +45,6 @@ tg_post_msg "<b>Buiild Kernel Clang started..</b>"
     make -j$(nproc --all) O=out ARCH=arm64 SUBARCH=arm64 ${DEFCONFIG}
     make -j$(nproc --all) ARCH=arm64 SUBARCH=arm64 O=out \
 	CC=${CLANG_ROOTDIR}/bin/clang \
-    NM=${CLANG_ROOTDIR}/bin/llvm-nm \
     AR=${CLANG_ROOTDIR}/bin/llvm-ar \
     AS=${CLANG_ROOTDIR}/bin/llvm-as \
     LD=${CLANG_ROOTDIR}/bin/ld.lld \
