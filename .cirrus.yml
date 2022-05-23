@@ -1,28 +1,25 @@
 env:
-    DEVICE_CODENAME: ginkgo
-    BUILD_USER: tyuzu-xd
-    BUILD_HOST: Ubuntu
     CIRRUS_CLONE_DEPTH: 1
     CIRRUS_WORKING_DIR: /tmp/cirrus-ci-build
-    TG_TOKEN: "ENCRYPTED[cf805075136affcdcce591083f5514f42f11d741c0d2f63aea322bafe9028b5931311bf30a0808e36806141c3327a244]"
-    TG_CHAT_ID: "ENCRYPTED[147d328e292a9692cc6c940bddfb81715f0e83908deed6f020218a5d365d45d6b3bff9ad50e3e1c3136fe2bc026ba841]"
+    TG_TOKEN: ""
+    TG_CHAT_ID: ""
+    IMAGE: ""
     
 task:
   name: "Kernel deploy.."
   timeout_in: 2h
   container:
-      image: tyuzu/kernel:build
+      image: ryujinxd/ubuntu:latest
       cpu: 8
       memory: 32G
+
+  Environment_script:
+      - cat /etc/os*
+      - env
+      - git config --global user.email "sahruldarmian212@gmail.com" -y && git config --global user.name "tzuyu-xd" -y
 
   Sync_script:
       - ./download.sh
 
-  Build_kernel_Clang_script:
-      - ./clang.sh
-      - ./rm.sh
-
-  Build_kernel_GCC_11_script:
-#      - ./gcc.sh
-#      - ./rm.sh
- 
+  Compile_script:
+      - ./compile.sh 
