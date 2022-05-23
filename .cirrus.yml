@@ -1,9 +1,8 @@
 env:
     CIRRUS_CLONE_DEPTH: 1
     CIRRUS_WORKING_DIR: /tmp/cirrus-ci-build
-    TG_TOKEN: ""
-    TG_CHAT_ID: ""
-    IMAGE: ""
+    TG_TOKEN: "5398876930:AAHH5brJSf5NG5lzlvh-OaaUulc1GstcJNg"
+    TG_CHAT_ID: "ENCRYPTED[1c07c1fd35bac920ac606680e4bd133632f737b4b4df32476ec26c2ebd3dd367391bdca4395411b41d576bb0f6d6477b]"
     
 task:
   name: "Kernel deploy.."
