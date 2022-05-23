@@ -4,7 +4,7 @@
 function env() {
 export KERNEL_NAME=KERNEL
 KERNEL_ROOTDIR=$CIRRUS_WORKING_DIR/KERNEL
-DEVICE_DEFCONFIG=vendor/juice_defconfig
+DEVICE_DEFCONFIG=vendor/sixteen_defconfig
 CLANG_ROOTDIR=$CIRRUS_WORKING_DIR/CLANG
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
@@ -47,7 +47,7 @@ cd ${KERNEL_ROOTDIR}
    if ! [ -a "$IMGS" ]; then
 	finerr
    fi
-   git clone --depth=1 https://github.com/fadlyas07/anykernel-3 $CIRRUS_WORKING_DIR/AnyKernel
+   git clone --depth=1 https://github.com/tzuyu-xd/AnyKernel3 $CIRRUS_WORKING_DIR/AnyKernel
    cp $IMGS $CIRRUS_WORKING_DIR/AnyKernel
 }
 # Push kernel to channel
