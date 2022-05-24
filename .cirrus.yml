@@ -1,4 +1,6 @@
 env:
+    BUILD_USER: ryujinXprjkt
+    BUILD_BUILD_HOST: Ubuntu
     CIRRUS_CLONE_DEPTH: 1
     CIRRUS_WORKING_DIR: /tmp/cirrus-ci-build
     TG_TOKEN: "5398876930:AAHH5brJSf5NG5lzlvh-OaaUulc1GstcJNg"
